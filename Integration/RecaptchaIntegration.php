@@ -15,27 +15,27 @@ use Mautic\PluginBundle\Integration\AbstractIntegration;
  */
 class RecaptchaIntegration extends AbstractIntegration
 {
-    const INTEGRATION_NAME = 'Recaptcha';
+    public const INTEGRATION_NAME = 'Recaptcha';
 
     public function getName()
     {
         return self::INTEGRATION_NAME;
     }
 
-    public function getDisplayName()
+    public function getDisplayName(): string
     {
         return 'reCAPTCHA';
     }
 
-    public function getAuthenticationType()
+    public function getAuthenticationType(): string
     {
         return 'none';
     }
 
-    public function getRequiredKeyFields()
+    public function getRequiredKeyFields(): array
     {
         return [
-            'site_key'   => 'mautic.integration.recaptcha.site_key',
+            'site_key' => 'mautic.integration.recaptcha.site_key',
             'secret_key' => 'mautic.integration.recaptcha.secret_key',
         ];
     }

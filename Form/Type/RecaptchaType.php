@@ -18,18 +18,16 @@ class RecaptchaType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array                $options
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-            'buttons',
-            'form_buttons',
-            [
-                'apply_text'     => false,
-                'save_text'      => 'mautic.core.form.submit',
+            'buttons', 'form_buttons', [
+                'apply_text' => false,
+                'save_text' => 'mautic.core.form.submit',
                 'cancel_onclick' => 'javascript:void(0);',
-                'cancel_attr'    => [
+                'cancel_attr' => [
                     'data-dismiss' => 'modal',
                 ],
             ]
@@ -43,7 +41,7 @@ class RecaptchaType extends AbstractType
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 'recaptcha';
     }

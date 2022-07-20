@@ -8,12 +8,13 @@
 
 namespace MauticPlugin\MauticRecaptchaBundle\Tests;
 
-use PHPUnit_Framework_MockObject_MockBuilder;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
 use MauticPlugin\MauticRecaptchaBundle\Integration\RecaptchaIntegration;
 use MauticPlugin\MauticRecaptchaBundle\Service\RecaptchaClient;
+use PHPUnit_Framework_MockObject_MockBuilder;
+use PHPUnit_Framework_TestCase;
 
-class RecaptchaClientTest extends \PHPUnit_Framework_TestCase
+class RecaptchaClientTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var PHPUnit_Framework_MockObject_MockBuilder|IntegrationHelper
@@ -30,17 +31,17 @@ class RecaptchaClientTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
 
         $this->integrationHelper = $this->createMock(IntegrationHelper::class);
-        $this->integration       = $this->createMock(RecaptchaIntegration::class);
+        $this->integration = $this->createMock(RecaptchaIntegration::class);
     }
 
     public function testVerifyWhenPluginIsNotInstalled()
     {
         $this->integrationHelper->expects($this->once())
-            ->method('getIntegrationObject')
-            ->willReturn(null);
+                                ->method('getIntegrationObject')
+                                ->willReturn(null);
 
         $this->integration->expects($this->never())
-            ->method('getKeys');
+                          ->method('getKeys');
 
         $this->createRecaptchaClient()->verify('');
     }
@@ -48,12 +49,12 @@ class RecaptchaClientTest extends \PHPUnit_Framework_TestCase
     public function testVerifyWhenPluginIsNotConfigured()
     {
         $this->integrationHelper->expects($this->once())
-            ->method('getIntegrationObject')
-            ->willReturn($this->integration);
+                                ->method('getIntegrationObject')
+                                ->willReturn($this->integration);
 
         $this->integration->expects($this->once())
-            ->method('getKeys')
-            ->willReturn(['site_key' => 'test', 'secret_key' => 'test']);
+                          ->method('getKeys')
+                          ->willReturn([ 'site_key' => 'test', 'secret_key' => 'test' ]);
 
         $this->createRecaptchaClient()->verify('');
     }

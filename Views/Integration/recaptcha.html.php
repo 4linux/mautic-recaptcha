@@ -1,29 +1,26 @@
 <?php
 
-$defaultInputClass = (isset($inputClass)) ? $inputClass : 'input';
-$containerType     = 'div-wrapper';
+$defaultInputClass = $inputClass ?? 'input';
+$containerType = 'div-wrapper';
 
-include __DIR__.'/../../../../app/bundles/FormBundle/Views/Field/field_helper.php';
+include $field['customParameters']['bundlesRoot'] . '/FormBundle/Views/Field/field_helper.php';
 
-$action   = $app->getRequest()->get('objectAction');
+$action = $app->getRequest()->get('objectAction');
 $settings = $field['properties'];
 
-$formName    = str_replace('_', '', $formName);
+$formName = str_replace('_', '', $formName);
 $hashedFormName = md5($formName);
 $formButtons = (!empty($inForm)) ? $view->render(
-    'MauticFormBundle:Builder:actions.html.php',
-    [
-        'deleted'        => false,
-        'id'             => $id,
-        'formId'         => $formId,
-        'formName'       => $formName,
+    'MauticFormBundle:Builder:actions.html.php', [
+        'deleted' => false,
+        'id' => $id,
+        'formId' => $formId,
+        'formName' => $formName,
         'disallowDelete' => false,
     ]
 ) : '';
 
-$label = (!$field['showLabel'])
-    ? ''
-    : <<<HTML
+$label = (!$field['showLabel']) ? '' : <<<HTML
 <label $labelAttr>{$view->escape($field['label'])}</label>
 HTML;
 
@@ -47,9 +44,6 @@ $html = <<<HTML
 HTML;
 ?>
 
-
-
 <?php
 echo $html;
 ?>
-

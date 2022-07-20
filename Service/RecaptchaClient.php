@@ -11,12 +11,12 @@ namespace MauticPlugin\MauticRecaptchaBundle\Service;
 use GuzzleHttp\Client as GuzzleClient;
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
-use MauticPlugin\MauticRecaptchaBundle\Integration\RecaptchaIntegration;
 use Mautic\PluginBundle\Integration\AbstractIntegration;
+use MauticPlugin\MauticRecaptchaBundle\Integration\RecaptchaIntegration;
 
 class RecaptchaClient extends CommonSubscriber
 {
-    const VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
+    public const VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
 
     /**
      * @var string
@@ -38,43 +38,42 @@ class RecaptchaClient extends CommonSubscriber
         $integrationObject = $integrationHelper->getIntegrationObject(RecaptchaIntegration::INTEGRATION_NAME);
 
         if ($integrationObject instanceof AbstractIntegration) {
-            $keys            = $integrationObject->getKeys();
-            $this->siteKey   = isset($keys['site_key']) ? $keys['site_key'] : null;
-            $this->secretKey = isset($keys['secret_key']) ? $keys['secret_key'] : null;
+            $keys = $integrationObject->getKeys();
+            $this->siteKey = $keys['site_key'] ?? null;
+            $this->secretKey = $keys['secret_key'] ?? null;
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [];
     }
 
 
     /**
-     * @param string $response
+     * @param string $token
+     *
      * @return bool
      */
-    public function verify($response)
+    public function verify(string $token): bool
     {
-        $client   = new GuzzleClient(['timeout' => 10]);
+        $client = new GuzzleClient([ 'timeout' => 10 ]);
+
         $response = $client->post(
             self::VERIFY_URL,
             [
                 'form_params' => [
-                    'secret'   => $this->secretKey,
-                    'response' => $response,
+                    'secret' => $this->secretKey,
+                    'response' => $token,
                 ],
             ]
         );
 
         $response = json_decode($response->getBody(), true);
-        if (array_key_exists('success', $response) && $response['success'] === true) {
-            return true;
-        }
 
-        return false;
+        return array_key_exists('success', $response) && $response['success'] === true;
     }
 }

@@ -7,28 +7,26 @@
  */
 
 return [
-    'name'        => 'reCAPTCHA',
+    'name' => 'reCAPTCHA',
     'description' => 'Enables reCAPTCHA integration.',
-    'version'     => '1.0',
-    'author'      => 'Konstantin Scheumann',
-
+    'version' => '1.1.4',
+    'author' => 'Konstantin Scheumann',
     'routes' => [
-
     ],
-
     'services' => [
         'events' => [
             'mautic.recaptcha.event_listener.form_subscriber' => [
-                'class'     => \MauticPlugin\MauticRecaptchaBundle\EventListener\FormSubscriber::class,
+                'class' => \MauticPlugin\MauticRecaptchaBundle\EventListener\FormSubscriber::class,
                 'arguments' => [
                     'event_dispatcher',
                     'mautic.helper.integration',
                     'mautic.model.factory',
-                    'mautic.recaptcha.service.recaptcha_client'
+                    'mautic.recaptcha.service.recaptcha_client',
+                    'mautic.helper.paths',
                 ],
             ],
             'mautic.recaptcha.service.recaptcha_client' => [
-                'class'     => \MauticPlugin\MauticRecaptchaBundle\Service\RecaptchaClient::class,
+                'class' => \MauticPlugin\MauticRecaptchaBundle\Service\RecaptchaClient::class,
                 'arguments' => [
                     'mautic.helper.integration',
                 ],
@@ -41,17 +39,14 @@ return [
             ],
         ],
         'models' => [
-
         ],
         'integrations' => [
             'mautic.integration.recaptcha' => [
-                'class'     => \MauticPlugin\MauticRecaptchaBundle\Integration\RecaptchaIntegration::class,
-                'arguments' => [
-                ],
+                'class' => \MauticPlugin\MauticRecaptchaBundle\Integration\RecaptchaIntegration::class,
+                'arguments' => [],
             ],
         ],
     ],
     'parameters' => [
-
     ],
 ];
