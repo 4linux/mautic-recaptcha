@@ -1,9 +1,9 @@
 <?php
 
-$defaultInputClass = (isset($inputClass)) ? $inputClass : 'input';
+$defaultInputClass = $inputClass ?? 'input';
 $containerType     = 'div-wrapper';
 
-include __DIR__.'/../../../../app/bundles/FormBundle/Views/Field/field_helper.php';
+include $field['customParameters']['bundlesRoot'] . '/FormBundle/Views/Field/field_helper.php';
 
 $action   = $app->getRequest()->get('objectAction');
 $settings = $field['properties'];
@@ -69,9 +69,6 @@ $html .= <<<HTML
 HTML;
 ?>
 
-
-
 <?php
 echo $html;
 ?>
-

@@ -25,7 +25,6 @@ class RecaptchaType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $builder->add(
             'scoreValidation',
             YesNoButtonGroupType::class,
@@ -35,7 +34,7 @@ class RecaptchaType extends AbstractType
                 'attr'       => [
                     'tooltip' => 'mautic.recaptcha.min.score.tooltip',
                 ],
-                'data'       => isset($options['data']['scoreValidation']) ? $options['data']['scoreValidation'] : false,
+                'data'       => $options['data']['scoreValidation'] ?? false,
             ]
         );
         $builder->add(
@@ -44,11 +43,11 @@ class RecaptchaType extends AbstractType
             [
                 'label'      => 'mautic.recaptcha.min.score',
                 'label_attr' => ['class' => 'control-label'],
-                'attr' => [
-                    'class' => 'form-control',
-                    'data-show-on' => '{"formfield_properties_scoreValidation_1":"checked"}'
+                'attr'       => [
+                    'class'        => 'form-control',
+                    'data-show-on' => '{"formfield_properties_scoreValidation_1":"checked"}',
                 ],
-                'data'       => isset($options['data']['minScore']) ? $options['data']['minScore'] : 0.8,
+                'data'       => $options['data']['minScore'] ?? 0.8,
             ]
         );
 
@@ -73,7 +72,7 @@ class RecaptchaType extends AbstractType
     /**
      * @return string
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'recaptcha';
     }

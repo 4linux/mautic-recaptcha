@@ -9,15 +9,11 @@
 return [
     'name'        => 'reCAPTCHA',
     'description' => 'Enables reCAPTCHA integration.',
-    'version'     => '1.0',
+    'version'     => '3.1.1',
     'author'      => 'Konstantin Scheumann',
-
-    'routes' => [
-
-    ],
-
-    'services' => [
-        'events' => [
+    'routes'      => [],
+    'services'    => [
+        'events'       => [
             'mautic.recaptcha.event_listener.form_subscriber' => [
                 'class'     => \MauticPlugin\MauticRecaptchaBundle\EventListener\FormSubscriber::class,
                 'arguments' => [
@@ -25,14 +21,13 @@ return [
                     'mautic.helper.integration',
                     'mautic.recaptcha.service.recaptcha_client',
                     'mautic.lead.model.lead',
-                    'translator'
+                    'translator',
+                    'mautic.helper.paths',
                 ],
             ],
         ],
-        'models' => [
-
-        ],
-        'others'=>[
+        'models'       => [],
+        'others'       => [
             'mautic.recaptcha.service.recaptcha_client' => [
                 'class'     => \MauticPlugin\MauticRecaptchaBundle\Service\RecaptchaClient::class,
                 'arguments' => [
@@ -64,7 +59,5 @@ return [
             ],
         ],
     ],
-    'parameters' => [
-
-    ],
+    'parameters'  => [],
 ];

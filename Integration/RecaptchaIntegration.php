@@ -18,24 +18,24 @@ use Symfony\Component\Form\FormBuilder;
  */
 class RecaptchaIntegration extends AbstractIntegration
 {
-    const INTEGRATION_NAME = 'Recaptcha';
+    public const INTEGRATION_NAME = 'Recaptcha';
 
-    public function getName()
+    public function getName(): string
     {
         return self::INTEGRATION_NAME;
     }
 
-    public function getDisplayName()
+    public function getDisplayName(): string
     {
         return 'reCAPTCHA';
     }
 
-    public function getAuthenticationType()
+    public function getAuthenticationType(): string
     {
         return 'none';
     }
 
-    public function getRequiredKeyFields()
+    public function getRequiredKeyFields(): array
     {
         return [
             'site_key'   => 'mautic.integration.recaptcha.site_key',
@@ -55,18 +55,18 @@ class RecaptchaIntegration extends AbstractIntegration
                 'version',
                 ChoiceType::class,
                 [
-                    'choices' => [
+                    'choices'     => [
                         'mautic.recaptcha.v2' => 'v2',
                         'mautic.recaptcha.v3' => 'v3',
                     ],
-                    'label'      => 'mautic.recaptcha.version',
-                    'label_attr' => ['class' => 'control-label'],
-                    'attr'       => [
-                        'class'    => 'form-control',
+                    'label'       => 'mautic.recaptcha.version',
+                    'label_attr'  => ['class' => 'control-label'],
+                    'attr'        => [
+                        'class' => 'form-control',
                     ],
                     'required'    => false,
                     'placeholder' => false,
-                    'data'=> isset($data['version']) ? $data['version'] : 'v2'
+                    'data'        => $data['version'] ?? 'v2',
                 ]
             );
         }
