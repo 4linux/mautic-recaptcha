@@ -1,0 +1,38 @@
+{% set formName = form.generateFormName() %}
+{% set fieldName = field.alias %}
+{% set hashedFormName = hash(formName) %}
+{% set validationMessage = field.validationMessage %}
+
+<script src="{{ recaptchaJs(hashedFormName) }}"></script>
+<script type="text/javascript">
+    let formName = "{{ formName }}";
+    const fieldName = "{{ fieldName }}";
+    const hashedFormName = "{{ hashedFormName }}";
+    const siteKey = "{{ siteKey() }}";
+
+    window[`verifyCallback_${hashedFormName}`] = function (response) {
+        const el = document.getElementById(`mauticform_input_${formName}_${fieldName}`);
+
+        if (response.length === 0) {
+            el.value = '';
+        } else {
+            el.value = response;
+        }
+    };
+
+    window[`onLoad_${hashedFormName}`] = function () {
+        grecaptcha.execute(siteKey, {action: 'form'}).then(function(token) {
+            window[`verifyCallback_${hashedFormName}`](token);
+        });
+    };
+</script>
+
+<div id="mauticform_{{ formName }}_{{ fieldName }}" class="mauticform-row mauticform-div-wrapper">
+    {% if version() == 'v2' %}
+        <div class="g-recaptcha" data-sitekey="{{ siteKey() }}" data-callback="verifyCallback_{{ hashedFormName }}"></div>
+    {% endif %}
+
+    <input id="mauticform_input_{{ formName }}_{{ fieldName }}" name="mauticform[{{ fieldName }}]" value="" class="mauticform-input" type="hidden">
+
+    <span class="mauticform-errormsg" style="display: none;">{{ validationMessage }}</span>
+</div>

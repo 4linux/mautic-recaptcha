@@ -19,21 +19,10 @@ class RecaptchaClient
 {
     public const VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
 
-    /**
-     * @var string
-     */
-    protected $siteKey;
+    protected string $siteKey;
 
-    /**
-     * @var string
-     */
-    protected $secretKey;
+    protected string $secretKey;
 
-    /**
-     * FormSubscriber constructor.
-     *
-     * @param IntegrationHelper $integrationHelper
-     */
     public function __construct(IntegrationHelper $integrationHelper)
     {
         $integrationObject = $integrationHelper->getIntegrationObject(
@@ -47,18 +36,6 @@ class RecaptchaClient
         }
     }
 
-    public static function getSubscribedEvents(): array
-    {
-        return [];
-    }
-
-
-    /**
-     * @param string $token
-     * @param Field  $field
-     *
-     * @return bool
-     */
     public function verify(string $token, Field $field): bool
     {
         $client = new GuzzleClient(['timeout' => 10]);

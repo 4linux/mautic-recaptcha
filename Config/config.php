@@ -9,32 +9,9 @@
 return [
     'name'        => 'reCAPTCHA',
     'description' => 'Enables reCAPTCHA integration.',
-    'version'     => '3.1.2',
+    'version'     => '3.2.0',
     'author'      => 'Konstantin Scheumann',
-    'routes'      => [],
     'services'    => [
-        'events'       => [
-            'mautic.recaptcha.event_listener.form_subscriber' => [
-                'class'     => \MauticPlugin\MauticRecaptchaBundle\EventListener\FormSubscriber::class,
-                'arguments' => [
-                    'event_dispatcher',
-                    'mautic.helper.integration',
-                    'mautic.recaptcha.service.recaptcha_client',
-                    'mautic.lead.model.lead',
-                    'translator',
-                    'mautic.helper.paths',
-                ],
-            ],
-        ],
-        'models'       => [],
-        'others'       => [
-            'mautic.recaptcha.service.recaptcha_client' => [
-                'class'     => \MauticPlugin\MauticRecaptchaBundle\Service\RecaptchaClient::class,
-                'arguments' => [
-                    'mautic.helper.integration',
-                ],
-            ],
-        ],
         'integrations' => [
             'mautic.integration.recaptcha' => [
                 'class'     => \MauticPlugin\MauticRecaptchaBundle\Integration\RecaptchaIntegration::class,
@@ -59,5 +36,4 @@ return [
             ],
         ],
     ],
-    'parameters'  => [],
 ];

@@ -62,7 +62,6 @@ class IntegrationTest extends TestCase
             ->method('addListener')
             ->willReturn(true);
 
-
         $this->integrationHelper = $this->getMockBuilder(IntegrationHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
