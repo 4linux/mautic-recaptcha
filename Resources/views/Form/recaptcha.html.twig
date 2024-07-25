@@ -28,11 +28,11 @@
 </script>
 
 <div id="mauticform_{{ formName }}_{{ fieldName }}" class="mauticform-row mauticform-div-wrapper">
-    {% if isEnabled() == false %}
+    {% if inBuilder and isEnabled() == false %}
         <div class="mauticform-error">{{ 'mautic.recaptcha.error.not_enabled'|trans }}</div>
     {% endif %}
 
-    {% if isEnabled() and isConfigured() == false %}
+    {% if inBuilder and isEnabled() and isConfigured() == false %}
         <div class="mauticform-error">{{ 'mautic.recaptcha.error.not_configured'|trans }}</div>
     {% endif %}
 
