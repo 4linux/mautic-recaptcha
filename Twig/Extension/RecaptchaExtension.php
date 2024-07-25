@@ -11,9 +11,13 @@ use Twig\TwigFunction;
 class RecaptchaExtension extends AbstractExtension
 {
 
-    protected string $siteKey;
+    private ?string $siteKey;
 
-    private string $version;
+    private ?string $version;
+
+    private ?string $secretKey;
+
+    private bool $isEnabled = false;
 
     public function __construct(IntegrationHelper $integrationHelper)
     {
@@ -23,9 +27,12 @@ class RecaptchaExtension extends AbstractExtension
 
         if ($integrationObject instanceof AbstractIntegration) {
             $keys = $integrationObject->getKeys();
+            $integrationSettings = $integrationObject->getIntegrationSettings();
+            $this->isEnabled = $integrationSettings->isPublished();
 
             $this->version = $keys['version'] ?? null;
             $this->siteKey = $keys['site_key'] ?? null;
+            $this->secretKey = $keys['secret_key'] ?? null;
         }
     }
 
@@ -36,6 +43,8 @@ class RecaptchaExtension extends AbstractExtension
             new TwigFunction('version', [$this, 'version'], ['is_safe' => ['all']]),
             new TwigFunction('siteKey', [$this, 'siteKey'], ['is_safe' => ['all']]),
             new TwigFunction('recaptchaJs', [$this, 'recaptchaJs'], ['is_safe' => ['all']]),
+            new TwigFunction('isConfigured', [$this, 'isConfigured'], ['is_safe' => ['all']]),
+            new TwigFunction('isEnabled', [$this, 'isEnabled'], ['is_safe' => ['all']]),
         ];
     }
 
@@ -44,12 +53,12 @@ class RecaptchaExtension extends AbstractExtension
         return md5($formName);
     }
 
-    public function version(): string
+    public function version(): ?string
     {
         return $this->version;
     }
 
-    public function siteKey(): string
+    public function siteKey(): ?string
     {
         return $this->siteKey;
     }
@@ -63,6 +72,16 @@ class RecaptchaExtension extends AbstractExtension
         }
 
         return $jsUrl;
+    }
+
+    public function isConfigured(): bool
+    {
+        return !empty($this->siteKey) && !empty($this->secretKey) && !empty($this->version);
+    }
+
+    public function isEnabled(): bool
+    {
+        return $this->isEnabled;
     }
 
 }

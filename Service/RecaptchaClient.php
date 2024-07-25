@@ -19,9 +19,9 @@ class RecaptchaClient
 {
     public const VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
 
-    protected string $siteKey;
+    protected ?string $siteKey;
 
-    protected string $secretKey;
+    protected ?string $secretKey;
 
     public function __construct(IntegrationHelper $integrationHelper)
     {

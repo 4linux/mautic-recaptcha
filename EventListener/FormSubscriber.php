@@ -30,11 +30,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class FormSubscriber implements EventSubscriberInterface
 {
 
-    private string $siteKey;
-
-    private string $version;
-
-    private bool $recaptchaIsConfigured;
+    private bool $recaptchaIsConfigured = false;
 
     public function __construct(
         protected EventDispatcherInterface $eventDispatcher,
@@ -50,11 +46,10 @@ class FormSubscriber implements EventSubscriberInterface
 
         if ($integrationObject instanceof AbstractIntegration) {
             $keys = $integrationObject->getKeys();
-            $this->version = $keys['version'] ?? null;
-            $this->siteKey = $keys['site_key'] ?? null;
+            $siteKey = $keys['site_key'] ?? null;
             $secretKey = $keys['secret_key'] ?? null;
 
-            if ($this->siteKey && $secretKey) {
+            if ($siteKey && $secretKey) {
                 $this->recaptchaIsConfigured = true;
             }
         }
@@ -78,10 +73,6 @@ class FormSubscriber implements EventSubscriberInterface
      */
     public function onFormBuild(FormBuilderEvent $event): void
     {
-        if (!$this->recaptchaIsConfigured) {
-            return;
-        }
-
         $event->addFormField('plugin.recaptcha', [
             'label' => 'mautic.plugin.actions.recaptcha',
             'formType' => RecaptchaType::class,
